@@ -1,5 +1,6 @@
 #Petit programme calculant les premières et dernières adresses d'un réseau
 
+from Plage import Plage
 
 def get_magic_number(list):
     for octet in list:
@@ -96,6 +97,29 @@ while not t:
             netmask = input_mask()
         else:
             t = True
+
+network = Plage("network",int(input("Combien d'adresses votre réseau doit-il contenir au maximum : ")),ip,"network",netmask)
+start = network.start
+t = int(input("Combien de plages voulez-vous ?"))
+plages_dict = dict()
+plages_list = []
+for i in range(t):
+    if i == 0:
+        c = input("Entrez un nom pour la 1ère plage : ").lower()
+        plages_dict[c] = int(input("Combien d'adresses voulez-vous dans cette plage : "))
+        plages_list.append(Plage(c, plages_dict[c], start, "plage"))
+    else:
+        c = input("Entrez un nom pour la {}ème plage : ".format(i+1)).lower()
+        plages_dict[c] = input("Entrez un nom pour la {}ème plage : ".format(i+1))
+        start = plages_list[i-1].end
+        t = False
+        for i in plages_list[i-1].end:
+            if i < 255:
+                start[plages_list.index(i)] += 1
+                t = True
+            elif t:
+                start[plages_list.index(i)] = "0"
+        plages_list.append(Plage(c,plages_dict[c],start))
 
 magic_number, magic_number_index = get_magic_number(netmask)
 multiples = get_multiples(magic_number)
