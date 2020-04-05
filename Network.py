@@ -135,3 +135,12 @@ class Network():
 
     def get_netmask(self):
         return self.netmask
+
+    def send_to_json(self):
+        data = []
+        data.append({
+            'netmask' : self.netmask,
+            'first_address': self.start,
+            'last_address': self.end
+        })
+        return data

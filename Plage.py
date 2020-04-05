@@ -35,7 +35,6 @@ class Plage():
     """
     Classe représentant une plage d'adresses réseau ainsi que son masque
     """
-
     name = ""
     nb = 0
     netmask = ["","","",""]
@@ -135,3 +134,12 @@ class Plage():
 
     def get_end(self):
         return self.end
+
+    def send_to_json(self):
+        data = []
+        data.append({
+            'netmask' : self.netmask,
+            'first_address': self.start,
+            'last_address': self.end
+        })
+        return data
